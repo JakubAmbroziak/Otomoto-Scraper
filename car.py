@@ -10,5 +10,5 @@ class Car:
 
 
     def __str__(self):
-        return f"{self.title} {self.price}zł {self.mileage}km {self.fuel_type} {self.gearbox} {self.year}r {self.capacity}cm3"
+        return f"{self.title} {self.price}zł {self.mileage}km {self.fuel_type} {self.gearbox} {self.year}r {self.capacity}dm3"
     

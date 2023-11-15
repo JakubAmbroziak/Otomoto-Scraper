@@ -1,4 +1,6 @@
 import statistics
+from collections import Counter
+
 
 class CarList:
     def __init__(self):
@@ -40,3 +42,15 @@ class CarList:
         print(f"Median capacity is equal to {median_capacity} cm3 based on {len(self.cars)} cars")
         return median_capacity
 
+    def calculate_gearbox_distribution(self):
+        if not self.cars:
+            return Counter()  # Return an empty Counter if the list is empty
+
+        gearbox_counter = Counter(car.gearbox for car in self.cars)
+        total_cars = len(self.cars)
+
+        for gearbox, count in gearbox_counter.items():
+            percentage = (count / total_cars) * 100
+            print(f"{gearbox}: {count} cars ({percentage:.2f}%)")
+
+        return gearbox_counter

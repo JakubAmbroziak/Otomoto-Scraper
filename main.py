@@ -89,7 +89,7 @@ async def scrape_and_process(base_url, start_page):
     return cars_list
 
 async def main():
-    base_url = "https://www.otomoto.pl/osobowe/audi/90?page="
+    base_url = "https://www.otomoto.pl/osobowe/audi/a5?page="
     start_page = 1
 
     cars = await scrape_and_process(base_url, start_page)
@@ -101,6 +101,7 @@ async def main():
     cars.calculate_average_price()
     cars.calculate_average_year()
     cars.calculate_median_capacity()
+    print(cars.calculate_gearbox_distribution())
 
 # Run the asynchronous main function
 asyncio.run(main())
