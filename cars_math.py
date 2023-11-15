@@ -54,3 +54,16 @@ class CarList:
             print(f"{gearbox}: {count} cars ({percentage:.2f}%)")
 
         return gearbox_counter
+    
+    def calculate_fuel_type_distribution(self):
+        if not self.cars:
+            return Counter()  # Return an empty Counter if the list is empty
+
+        fuel_type_counter = Counter(car.fuel_type for car in self.cars)
+        total_cars = len(self.cars)
+
+        for fuel_type, count in fuel_type_counter.items():
+            percentage = (count / total_cars) * 100
+            print(f"{fuel_type}: {count} cars ({percentage:.2f}%)")
+
+        return fuel_type_counter

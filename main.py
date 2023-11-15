@@ -102,6 +102,7 @@ async def main():
     cars.calculate_average_year()
     cars.calculate_median_capacity()
     print(cars.calculate_gearbox_distribution())
+    print(cars.calculate_fuel_type_distribution())
 
 # Run the asynchronous main function
 asyncio.run(main())
