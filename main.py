@@ -11,13 +11,25 @@ if response.status_code == 200:
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Verify the class name and adjust if necessary
-    car_titles = soup.find_all('a')
+    car_ads = soup.find_all('article')
 
     # Check if any titles were found
-    if car_titles:
-        for title in car_titles:
-            print(title.text.strip())
-    else:
-        print("No car titles found on the page.")
+    
+    for car_ad in car_ads:
+        try:
+            # Extract information within each car ad div
+            title = car_ad.find('h1').a.text.strip()
+            price = car_ad.find('h3').text.strip()
+            mileage = soup.find('dd', {'data-parameter': 'mileage'}).text.strip()
+
+
+
+            # Print or save the extracted information
+            print(f"{title} Cena {price} Przebieg: {mileage}")
+        except Exception as e:
+            #print(e)
+            pass
+    
+
 else:
     print(f"Failed to retrieve the page. Status code: {response.status_code}")
