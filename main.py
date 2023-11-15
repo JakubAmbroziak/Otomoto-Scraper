@@ -20,15 +20,20 @@ if response.status_code == 200:
             # Extract information within each car ad div
             title = car_ad.find('h1').a.text.strip()
             price = car_ad.find('h3').text.strip()
-            mileage = soup.find('dd', {'data-parameter': 'mileage'}).text.strip()
+            mileage = car_ad.find('dd', {'data-parameter': 'mileage'}).text.strip()
+            fuel_type = car_ad.find('dd', {'data-parameter': 'fuel_type'}).text.strip()
+            gearbox = car_ad.find('dd', {'data-parameter': 'gearbox'}).text.strip()
+            year = car_ad.find('dd', {'data-parameter': 'year'}).text.strip()
+            capacity = car_ad.find('p').text.split('•')[0].strip()
+
+            print(f"{title} {price} {mileage} {fuel_type} {gearbox} {year} {capacity}")
 
 
-
-            # Print or save the extracted information
-            print(f"{title} Cena {price} Przebieg: {mileage}")
         except Exception as e:
-            #print(e)
+            # Handle exceptions or ignore them
+            #print(f"Error extracting information: {e}")
             pass
+
     
 
 else:
