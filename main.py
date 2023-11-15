@@ -29,9 +29,11 @@ def scrape_cars_on_page(soup):
 
             car = Car(title, price, mileage, fuel_type, gearbox, year, capacity)
             cars_list.add(car)
+        except (AttributeError, TypeError) as e:
+            pass
         except Exception as e:
             print(f"Error extracting information: {e}")
-            pass
+
         
 def get_total_pages(url):
     soup = scrape_page(url)
@@ -79,8 +81,10 @@ async def main():
 
     # Additional code to be executed after scraping
     print("All scraping is done. Now processing the cars:")
-    for car in cars:
-        print(car)
+    #for car in cars:
+        #print(car)
+    cars.calculate_average_price()
+    cars.calculate_average_year()
 
 # Run the asynchronous main function
 asyncio.run(main())
