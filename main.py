@@ -3,6 +3,7 @@ import asyncio
 from bs4 import BeautifulSoup
 from car import *
 from cars_math import *
+import re
 
 def scrape_page(url):
     response = requests.get(url)
@@ -25,11 +26,25 @@ def scrape_cars_on_page(soup):
             fuel_type = car_ad.find('dd', {'data-parameter': 'fuel_type'}).text.strip()
             gearbox = car_ad.find('dd', {'data-parameter': 'gearbox'}).text.strip()
             year = car_ad.find('dd', {'data-parameter': 'year'}).text.strip()
-            capacity = car_ad.find('p').text.split('•')[0].strip()
 
-            car = Car(title, price, mileage, fuel_type, gearbox, year, capacity)
-            cars_list.add(car)
+            # Find the p element containing 'cm3'
+            capacity_element = None
+            for p_element in car_ad.find_all('p'):
+                if 'cm3' in p_element.text:
+                    capacity_element = p_element
+                    break
+
+            if capacity_element:
+                # Use regular expression to extract capacity information
+                capacity_matches = re.findall(r'\b\d+\s?\d*\s?cm3\b', capacity_element.text)
+
+                if capacity_matches:
+                    capacity = capacity_matches[0]
+                    car = Car(title, price, mileage, fuel_type, gearbox, year, capacity)
+                    print(car)
+                    cars_list.add(car)
         except (AttributeError, TypeError) as e:
+            #print(f"Error extracting information (Attribute or Type Error): {e}")
             pass
         except Exception as e:
             print(f"Error extracting information: {e}")
@@ -74,17 +89,18 @@ async def scrape_and_process(base_url, start_page):
     return cars_list
 
 async def main():
-    base_url = "https://www.otomoto.pl/osobowe/audi/100?page="
+    base_url = "https://www.otomoto.pl/osobowe/audi/90?page="
     start_page = 1
 
     cars = await scrape_and_process(base_url, start_page)
 
     # Additional code to be executed after scraping
     print("All scraping is done. Now processing the cars:")
-    #for car in cars:
-        #print(car)
+   # for car in cars:
+       # print(car)
     cars.calculate_average_price()
     cars.calculate_average_year()
+    cars.calculate_median_capacity()
 
 # Run the asynchronous main function
 asyncio.run(main())

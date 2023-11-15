@@ -1,3 +1,5 @@
+import statistics
+
 class CarList:
     def __init__(self):
         self.cars = []
@@ -28,4 +30,13 @@ class CarList:
         avg_year = int(total_year / len(self.cars))
         print(f"Avrage year is equal to {avg_year} based on {len(self.cars)} cars")
         return avg_year
+    
+    def calculate_median_capacity(self):
+        if not self.cars:
+            return 0  # Return 0 if the list is empty
+
+        capacities = [car.capacity for car in self.cars]
+        median_capacity = statistics.median(capacities)
+        print(f"Median capacity is equal to {median_capacity} cm3 based on {len(self.cars)} cars")
+        return median_capacity
 
